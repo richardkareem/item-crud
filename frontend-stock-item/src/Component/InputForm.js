@@ -3,6 +3,9 @@ import {storage} from "../firebase"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import "./InputForm.css"
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 const InputForm = ({isClicked, setIsClicked, postData}) => {
     const [tes,setTes]= useState([]);
     const [input, setInput] = useState({
@@ -61,8 +64,8 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
          {/* <h1>Input Form</h1>  */}
         <div className='container-form' >
             <div className='container-inner' >
-                <button onClick={closePopUp}>Close Pop Up</button>
-                <input id='item' value={input.item} onChange={onChangeInput}  className='form-component' placeholder='nama barang' type='text'  />
+                <FontAwesomeIcon className='button-close' onClick={closePopUp} icon={faXmark} size="xl" />
+                <input  id='item' value={input.item} onChange={onChangeInput}  className='form-component' placeholder='nama barang' type='text'  />
                 <input id='cost_buy' value={input.cost_buy} onChange={onChangeInput}  className='form-component' placeholder='harga beli' type='text' />
                 <input id='cost_sell' value={input.cost_sell} onChange={onChangeInput}  className='form-component' placeholder='harga jual' type='text' />
                 <input id='stock' value={input.stock} onChange={onChangeInput}  className='form-component' placeholder='stock' type='text' />
@@ -74,6 +77,7 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
                 // value={input.img} 
                 onChange={uploadImage}  
                 className='form-component' />
+                
                 <button onClick={onClickBut}>Input</button>
                 {/* <button onClick={uploadImage}>tesImage</button> */}
             </div>

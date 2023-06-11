@@ -4,6 +4,9 @@ import "./Home.css"
 import Card from '../Component/Card';
 import InputForm from '../Component/InputForm';
 import Swal from 'sweetalert2';
+import EditForm from '../Component/SubComponent/EditForm';
+
+
 
 
 
@@ -12,6 +15,15 @@ const Home = () => {
 
     const [ datas, setDatas ] = useState([]);
     const [isClicked,setIsClicked] = useState(false);
+    const [ isClickedEdit, setIsClickedEdit ] = useState(false);
+    const [ currentData, setCurrentData ] = useState({
+            "id":"",
+            "img": "",
+            "item": "",
+            "cost_buy": "",
+            "cost_sell": "",
+            "stock": ""
+    })
     const fetchData = async()=>{
         try {
 
@@ -76,6 +88,51 @@ const Home = () => {
         }
     }
 
+    const editData = async(stock, id)=>{
+        try {
+            id = currentData.id;
+            stock = currentData.stock;
+            const url = `http://localhost:8080/api/item/${id}`;
+            const config = {"Content:Type":"application/json"};
+            const body = {
+             "stock": stock
+            }
+            const {data, status } = await axios.put(url,body,config);
+            if(status === 201){
+                Swal.fire({
+                    icon:"success",
+                    title: 'Success',
+                    text: 'Success Edit item',
+                  })
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // const editData = async(img, item, costBuy, costSell,stock)=>{
+    //     try {
+    //         const url = "http://localhost:8080/api/item/1";
+    //         const config = {"Content:Type":"application/json"};
+    //         const body = {
+    //             "img": img,
+    //             "item": item,
+    //             "cost_buy": costBuy,
+    //             "cost_sell": costSell,
+    //             "stock": stock
+    //         }
+    //         const data = await axios.put(url,body,config);
+    //         console.log(data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    const tes = (id)=>{
+        console.log("your id is "+ id);
+    }
+
   
   
 
@@ -90,16 +147,33 @@ const Home = () => {
     return (
     <div style={{display:"flex", justifyContent:"center", flexDirection:"column"}}>
         {isClicked ? <InputForm isClicked={isClicked} setIsClicked={setIsClicked} postData = {postData} /> : null}
-        <h1>Pages Home</h1>
+        {isClickedEdit ? 
+        <EditForm 
+        editData={editData}
+        setIsClickedEdit={setIsClickedEdit} 
+        isClickedEdit={isClickedEdit} 
+        setCurrentData={setCurrentData}
+        currentData={currentData}
+        
+        /> : null }
+        {/* {isClickedEdit ? } */}
+        <h1 style={{textAlign:"center"}}>Input Item Website</h1>
         <div className='container'>
             
             {datas.map((item)=>(
-                <Card key={item.id} item={item}  />
+                <Card key={item.id} 
+                item={item} 
+                setIsClickedEdit={setIsClickedEdit} 
+                isClickedEdit={isClickedEdit}  
+                currentData={currentData}
+                setCurrentData={setCurrentData}
+                />
             ))}
 
           
             
         </div>
+
         <button style={{background:"pink", alignSelf:"center"}} onClick={click}>Pop Up Input</button>
     </div>
     );
