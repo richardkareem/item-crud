@@ -88,26 +88,46 @@ const Home = () => {
         }
     }
 
-    const editData = async(stock, id)=>{
+    const editData = async(id, costBuy, costSell, stock, img)=>{
         try {
             id = currentData.id;
             stock = currentData.stock;
+            costBuy = currentData.cost_buy;
+            costSell = currentData.cost_sell;
             const url = `http://localhost:8080/api/item/${id}`;
             const config = {"Content:Type":"application/json"};
+            let isCorrect = false;
             const body = {
-             "stock": stock
-            }
-            const {data, status } = await axios.put(url,body,config);
-            if(status === 201){
-                Swal.fire({
-                    icon:"success",
-                    title: 'Success',
-                    text: 'Success Edit item',
-                  })
+                "img": img,
+                "cost_buy": costBuy,
+                "cost_sell": costSell,
+                "stock": stock
             }
             
+           
+      
+                const {data, status } = await axios.put(url,body,config);
+                if(status === 201){
+                    Swal.fire({
+                        icon:"success",
+                        title: 'Success',
+                        text: 'Success Edit item',
+                      })
+                }
+           
+           
+            
         } catch (error) {
-            console.log(error);
+            const { request } = error;
+            const { status } = request;
+            if (status === 400 ) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Your Input Wrong',
+                    text: 'Cost Buy, Cost Sell, and Stock must Number',
+                  })
+            }
+            // console.log(error);
         }
     }
 

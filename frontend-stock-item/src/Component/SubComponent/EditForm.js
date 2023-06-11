@@ -24,7 +24,7 @@ const EditForm = ({setIsClickedEdit, isClickedEdit, currentData, setCurrentData,
 
                <FontAwesomeIcon className='button-close' onClick={closePopUp} icon={faXmark} size="xl" />
                
-               <input id='item' value={currentData.item} onChange={onChangeInput}  className='form-component' placeholder='nama barang' type='text'  />
+               <input id='item' value={currentData.item}  className='form-component' placeholder='nama barang' type='text'  />
                <input id='cost_buy' value={currentData.cost_buy}  onChange={onChangeInput} className='form-component' placeholder='harga beli' type='text' />
                <input id='cost_sell' value={currentData.cost_sell} onChange={onChangeInput}  className='form-component' placeholder='harga jual' type='text' />
                <input id='stock' value={currentData.stock} onChange={onChangeInput} className='form-component' placeholder='stock' type='text' />

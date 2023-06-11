@@ -3,11 +3,14 @@ import {storage} from "../firebase"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import "./InputForm.css"
 
+import Swal from 'sweetalert2';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const InputForm = ({isClicked, setIsClicked, postData}) => {
     const [tes,setTes]= useState([]);
+    const [ imageUpload, setImageUpload ] = useState(null);
     const [input, setInput] = useState({
         item:"",
         cost_buy:"",
@@ -16,30 +19,34 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
         img:""
      });
 
-     const uploadImage = async(e)=>{
-        
+     //upload into firestore
+     const uploadImage = async (e)=>{
         try {
-           
-            const fileName = e.taget.files[0].name;
-            const storageRef = ref(storage,`${fileName}`)
-
-            const uploadBytes = await uploadBytes(storageRef, e.taget.files[0]);
-           
-            console.log("berhasil upload");
-
-            const snapShot = await getDownloadURL(storageRef);
-            const donwloadUrl = await snapShot();
-
-            //url
-            console.log(snapShot);
-            setInput((currInput)=>{
-                return{...currInput, img:snapShot};
-            })
+            const fileName = e.target.files[0].name;
+            const size = e.target.files[0].size;
+            console.log(size);
+            if (size < 100000){
+                const storageRef = ref(storage,`${fileName}`)
+                const snapshot = await uploadBytes(storageRef, e.target.files[0]); //dataFile
+                
+                const downloadUrl = await getDownloadURL(storageRef);
+                setInput(currInput =>{
+                    return {...currInput, img:downloadUrl}
+                })
+                console.log(downloadUrl);
+            }else{
+                Swal.fire({
+                    icon:"error",
+                    title: 'Error',
+                    text: 'Item do not less than 100kb',
+                  })
+            }
         } catch (error) {
             console.log(error);
         }
-      
 
+           
+            
 
      }
 
@@ -56,9 +63,19 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
             return{...currInput, [e.target.id]:e.target.value}
         })
      }
-     useEffect(()=>{
-        console.log(tes);
-     },[tes])
+    //  ketika file berubah
+     const onChageFile = (e)=>{
+        
+       const fileName = e.target.files[0].name;
+       console.log(fileName);
+     }
+     const onClickUpload = (e)=>{
+       console.log(input);
+        
+     }
+    //  useEffect(()=>{
+    //     console.log(tes);
+    //  },[tes])
     return (
         <>
          {/* <h1>Input Form</h1>  */}
@@ -69,15 +86,14 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
                 <input id='cost_buy' value={input.cost_buy} onChange={onChangeInput}  className='form-component' placeholder='harga beli' type='text' />
                 <input id='cost_sell' value={input.cost_sell} onChange={onChangeInput}  className='form-component' placeholder='harga jual' type='text' />
                 <input id='stock' value={input.stock} onChange={onChangeInput}  className='form-component' placeholder='stock' type='text' />
+                
                 <input 
                 type="file" 
                 accept='image/png, image/jpg' 
-                name='img' 
-                id='img' 
-                // value={input.img} 
-                onChange={uploadImage}  
+                onChange={uploadImage}
+                name='img'  
                 className='form-component' />
-                
+                <button onClick={onClickUpload} > Tes Upload File </button>
                 <button onClick={onClickBut}>Input</button>
                 {/* <button onClick={uploadImage}>tesImage</button> */}
             </div>
