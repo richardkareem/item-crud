@@ -1,5 +1,7 @@
 package org.stockitem.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +14,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 
     @Autowired
     StockRepo stockRepo;
+
+    public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
 
     // -------------------Create a Product-------------------------------------------
@@ -28,18 +32,22 @@ public class ApiController {
 
 
             stockRepo.save(stock);
+            logger.info("Berhasil Membuat item dengan id "+ stock.getId());
             return new ResponseEntity<>(stock,HttpStatus.CREATED);
+
 
     }
     //gettAllItems
-    @GetMapping(path = "/items")
-    public ResponseEntity <List<Stock>> getAllItems (@RequestBody Stock stock)throws SQLException, ClassNotFoundException{
+//    @GetMapping(path = "/items", produces = "application/json")
+    @RequestMapping(value = "/items", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity <List<Stock>> getAllItems ()throws  SQLException, ClassNotFoundException{
         List<Stock>stocks = stockRepo.findAll();
 
         return new ResponseEntity<>(stocks, HttpStatus.OK);
     }
     //update item
-    @GetMapping(path = "/item/{id}")
+//    @GetMapping(path = "/item/{id}")
+    @RequestMapping(value = "/item/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> updateItems (@PathVariable("id")long id, @RequestBody Stock stock)throws SQLException, ClassNotFoundException{
         Stock currentStock = stockRepo.findById(id).orElse(null);
 
@@ -53,7 +61,8 @@ public class ApiController {
 
         return new ResponseEntity<>(currentStock, HttpStatus.CREATED);
     }
-    @DeleteMapping("/item-delete/{id}")
+//    @DeleteMapping("/item-delete/{id}")
+    @RequestMapping(value = "/item-delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<?> deleteItem (@PathVariable("id")long id){
         CustomErrorMessage customErrorMessage1 = new CustomErrorMessage("id "+id+" has been deleted");
         CustomErrorMessage customErrorMessage2 = new CustomErrorMessage("id "+id+" not found");
