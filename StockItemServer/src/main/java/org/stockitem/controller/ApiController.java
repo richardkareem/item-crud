@@ -47,14 +47,16 @@ public class ApiController {
     }
     //update item
 //    @GetMapping(path = "/item/{id}")
-    @RequestMapping(value = "/item/{id}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/item/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<?> updateItems (@PathVariable("id")long id, @RequestBody Stock stock)throws SQLException, ClassNotFoundException{
         Stock currentStock = stockRepo.findById(id).orElse(null);
 
         if (currentStock == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomErrorMessage("Item with ID: "+id+" Not Found"), HttpStatus.NOT_FOUND);
         }
-
+        currentStock.setCost_buy(stock.getCost_buy());
+        currentStock.setCost_sell(stock.getCost_sell());
+        currentStock.setImg(stock.getImg());
         currentStock.setStock(stock.getStock());
 
         stockRepo.save(currentStock);
