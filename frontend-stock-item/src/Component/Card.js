@@ -15,8 +15,15 @@ const Card = ({item, isClickedEdit, setIsClickedEdit, currentData, setCurrentDat
 
     const deleteCard = async(id)=>{
         try {
+            const token = localStorage.getItem("token");
             const url = `http://localhost:8080/api/item-delete/${item.id}`
-            const config = { "Content-Type" : "applicaton/json" }
+            const config = {
+                headers:
+                {
+                    "Content-Type":"application/json",
+                    Authorization : `Bearer ${token}`
+                }
+            };
         
             const notification = await Swal.fire({
                 title: 'Are you sure?',

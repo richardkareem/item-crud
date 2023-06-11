@@ -22,7 +22,7 @@ public class DAOUser {
 
 	private String role;
 
-	@Column
+	@Column(unique = true)
 	private String username;
 	@Column
 	@JsonIgnore

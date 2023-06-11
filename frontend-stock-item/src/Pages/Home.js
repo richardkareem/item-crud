@@ -5,6 +5,8 @@ import Card from '../Component/Card';
 import InputForm from '../Component/InputForm';
 import Swal from 'sweetalert2';
 import EditForm from '../Component/SubComponent/EditForm';
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -12,6 +14,7 @@ import EditForm from '../Component/SubComponent/EditForm';
 
 const Home = () => {
 
+    const navigate = useNavigate();
 
     const [ datas, setDatas ] = useState([]);
     const [isClicked,setIsClicked] = useState(false);
@@ -24,10 +27,24 @@ const Home = () => {
             "cost_sell": "",
             "stock": ""
     })
+    const logout = ()=>{
+       localStorage.clear();
+       console.log("KELUAR");
+       navigate("/login");
+       
+    }
     const fetchData = async()=>{
         try {
-
-           const {data,status}= await axios.get("http://localhost:8080/api/items");
+            const token = localStorage.getItem("token");
+            const url = "http://localhost:8080/api/items";
+            const config = {
+                headers:
+                {
+                    "Content-Type":"application/json",
+                    Authorization : `Bearer ${token}`
+                }
+            }
+           const {data,status}= await axios.get(url,config);
            
            if(status === 200){
             // console.log(data);
@@ -45,6 +62,7 @@ const Home = () => {
 
     const postData = async(img, item, costBuy, costSell, stock)=>{
         try {
+            const token = localStorage.getItem("token");
             const url = "http://localhost:8080/api/create-item"; 
             const body = {
                 "img": img,
@@ -53,7 +71,13 @@ const Home = () => {
                 "cost_sell": costSell,
                 "stock": stock
             }
-            const config = { "Content-type": "application/json" }
+            const config = {
+                headers:
+                {
+                    "Content-Type":"application/json",
+                    Authorization : `Bearer ${token}`
+                }
+            };
             const {data, status} = await axios.post(url,body,config);
         
             if(status ===201){
@@ -90,12 +114,19 @@ const Home = () => {
 
     const editData = async(id, costBuy, costSell, stock, img)=>{
         try {
+            const token = localStorage.getItem("token");
             id = currentData.id;
             stock = currentData.stock;
             costBuy = currentData.cost_buy;
             costSell = currentData.cost_sell;
             const url = `http://localhost:8080/api/item/${id}`;
-            const config = {"Content:Type":"application/json"};
+            const config = {
+                headers:
+                {
+                    "Content-Type":"application/json",
+                    Authorization : `Bearer ${token}`
+                }
+            };
             let isCorrect = false;
             const body = {
                 "img": img,
@@ -130,32 +161,6 @@ const Home = () => {
             // console.log(error);
         }
     }
-
-    // const editData = async(img, item, costBuy, costSell,stock)=>{
-    //     try {
-    //         const url = "http://localhost:8080/api/item/1";
-    //         const config = {"Content:Type":"application/json"};
-    //         const body = {
-    //             "img": img,
-    //             "item": item,
-    //             "cost_buy": costBuy,
-    //             "cost_sell": costSell,
-    //             "stock": stock
-    //         }
-    //         const data = await axios.put(url,body,config);
-    //         console.log(data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    const tes = (id)=>{
-        console.log("your id is "+ id);
-    }
-
-  
-  
-
     useEffect(()=>{
         fetchData();
      
@@ -195,6 +200,7 @@ const Home = () => {
         </div>
 
         <button style={{background:"pink", alignSelf:"center"}} onClick={click}>Pop Up Input</button>
+        <button style={{background:"pink", alignSelf:"center"}} onClick={logout}>logoutt</button>
     </div>
     );
 }

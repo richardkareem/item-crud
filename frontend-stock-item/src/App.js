@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import PagesNotFound from './Pages/PagesNotFound';
 import Login from './Pages/Login';
 import PrivateRoute from './Component/PrivateRoute';
+import Register from './Pages/Register';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<PrivateRoute> <Home /> </PrivateRoute> } />
         <Route path='*' element={<PagesNotFound />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         {/* <Route path='/input' element={<InputForm />} /> */}
       </Routes>
     </div>
