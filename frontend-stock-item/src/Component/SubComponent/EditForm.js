@@ -17,7 +17,7 @@ const EditForm = ({setIsClickedEdit, isClickedEdit, currentData, setCurrentData,
 
 
     return (
-        <>
+        <div className='parent-container-input'>
         {/* <h1>Input Form</h1>  */}
        <div className='container-form' >
            <div className='container-inner' >
@@ -36,11 +36,11 @@ const EditForm = ({setIsClickedEdit, isClickedEdit, currentData, setCurrentData,
                // value={input.img} 
             //    onChange={uploadImage}  
                className='form-component' />
-               <button onClick={editData}>Input</button>
+               <button onClick={editData}  style={{marginTop:20}} className='button-popout'>Input</button>
                {/* <button onClick={uploadImage}>tesImage</button> */}
            </div>
        </div>  
-       </>
+       </div>
     );
 }
 

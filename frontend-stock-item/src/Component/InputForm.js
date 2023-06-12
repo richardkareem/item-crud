@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
+
+
 const InputForm = ({isClicked, setIsClicked, postData}) => {
     const [tes,setTes]= useState([]);
     const [ imageUpload, setImageUpload ] = useState(null);
@@ -44,10 +46,6 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
         } catch (error) {
             console.log(error);
         }
-
-           
-            
-
      }
 
      const onClickBut = ()=>{
@@ -63,22 +61,14 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
             return{...currInput, [e.target.id]:e.target.value}
         })
      }
-    //  ketika file berubah
-     const onChageFile = (e)=>{
-        
-       const fileName = e.target.files[0].name;
-       console.log(fileName);
-     }
-     const onClickUpload = (e)=>{
-       console.log(input);
-        
-     }
+   
     //  useEffect(()=>{
     //     console.log(tes);
     //  },[tes])
     return (
-        <>
+        <div  className="parent-container-input">
          {/* <h1>Input Form</h1>  */}
+         
         <div className='container-form' >
             <div className='container-inner' >
                 <FontAwesomeIcon className='button-close' onClick={closePopUp} icon={faXmark} size="xl" />
@@ -93,12 +83,12 @@ const InputForm = ({isClicked, setIsClicked, postData}) => {
                 onChange={uploadImage}
                 name='img'  
                 className='form-component' />
-                <button onClick={onClickUpload} > Tes Upload File </button>
-                <button onClick={onClickBut}>Input</button>
+           
+                <button onClick={onClickBut} style={{marginTop:20}} className='button-popout'>Input</button>
                 {/* <button onClick={uploadImage}>tesImage</button> */}
             </div>
         </div>  
-        </>
+        </div>
     );
 }
 

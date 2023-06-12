@@ -1,9 +1,17 @@
+.parent-container-input{
+
+    display:flex; 
+    align-items:center;
+    justify-content:center; 
+    overflow: hidden ;
+}
 .container-form{
     height: 200vh;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.276);
-
     position: absolute;
+    
+   
 
     display: flex;
     flex-direction: column;
@@ -21,7 +29,8 @@
     display: flex;
     flex-direction: column;
 
-    position: relative;
+    position: absolute;
+    top:55%;
 
 }
 .form-component{

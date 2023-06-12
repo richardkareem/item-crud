@@ -1,6 +1,39 @@
+
 .container{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-top: 50px;
 }
+.logout-button{
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    color: "#000000",
+    
+}
+.logout-button:hover{
+    transition: 0.5s ease-out;
+   cursor:cell;
+   color: rgb(92, 17, 17);
+}
+.button-popout {
+    
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: 2px solid black;
+    box-shadow: 6px 5px 0px 0px rgba(0,0,0,1);
+   
+    cursor: pointer;
+    align-self: center;
+    margin-top: 300px;
+
+    
+  }
+  
+  .button-popout:hover {
+    
+    background-color: #45a049;
+  }
 

@@ -18,4 +18,15 @@ public class JwtResponse implements Serializable {
 
 	}
 
+	public String getJwttoken() {
+		return jwttoken;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

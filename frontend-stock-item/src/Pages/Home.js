@@ -5,12 +5,9 @@ import Card from '../Component/Card';
 import InputForm from '../Component/InputForm';
 import Swal from 'sweetalert2';
 import EditForm from '../Component/SubComponent/EditForm';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-
-
-
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Home = () => {
 
@@ -170,8 +167,10 @@ const Home = () => {
         fetchData();
     },[datas])
     return (
-    <div style={{display:"flex", justifyContent:"center", flexDirection:"column"}}>
-        {isClicked ? <InputForm isClicked={isClicked} setIsClicked={setIsClicked} postData = {postData} /> : null}
+    <div style={{display:"flex", justifyContent:"center", flexDirection:"column", height:"100vh", backgroundColor:"#fccf03"}}>
+        <FontAwesomeIcon onClick={logout} className='logout-button' icon={faRightFromBracket} size='2xl' />
+        {isClicked ? <InputForm isClicked={isClicked} setIsClicked={setIsClicked} postData = {postData} />  : null}
+        {isClicked ? document.body.style.overflow="hidden" : null}
         {isClickedEdit ? 
         <EditForm 
         editData={editData}
@@ -181,6 +180,7 @@ const Home = () => {
         currentData={currentData}
         
         /> : null }
+        {isClickedEdit ? document.body.style.overflow = "hidden" : null }
         {/* {isClickedEdit ? } */}
         <h1 style={{textAlign:"center"}}>Input Item Website</h1>
         <div className='container'>
@@ -198,9 +198,10 @@ const Home = () => {
           
             
         </div>
-
-        <button style={{background:"pink", alignSelf:"center"}} onClick={click}>Pop Up Input</button>
-        <button style={{background:"pink", alignSelf:"center"}} onClick={logout}>logoutt</button>
+     
+        <button style={{ marginTop:10,}} className='button-popout' onClick={click}  > Input Item</button>
+      
+        {/* <button style={{background:"pink", alignSelf:"center"}} onClick={click}>Pop Up Input</button> */}
     </div>
     );
 }

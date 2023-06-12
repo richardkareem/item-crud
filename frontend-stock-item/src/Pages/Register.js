@@ -4,7 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const Register = () => {
-    const [ user, setUser ] = useState({username:"", password:"" });
+    const [ user, setUser ] = useState({name:"",username:"", password:"" });
     const navigate = useNavigate();
     const navigateToLogin = ()=>{
         navigate("/login")
@@ -30,20 +30,23 @@ const Register = () => {
                 navigate("/login");
             }
         } catch (error) {
-            const { response } = error;
-            console.log(response);
-            if(response === 500){
+           const {response} = error;
+           const { status } = response;
+            console.log(status);
+            if(status === 500){
                 Swal.fire({
                     icon: 'error',
-                    title: 'Upps 🤭...',
-                    text: ' Username anda sudah ada 😥',
+                    title: 'Upps...',
+                    text: ' Username anda sudah ada yang punya 🙀',
                   })
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Upps...',
+                text: ' Password harus berupa angka simbol dan Huruf besar 🙀',
+              })
             }
-          Swal.fire({
-            icon: 'error',
-            title: 'Upps 🤭...',
-            text: ' Password harus berupa angka simbol dan Huruf besar 😥',
-          })
+         
             
             
         }
@@ -63,10 +66,18 @@ const Register = () => {
           <h2 className='h2-login'>Register</h2>
           <form className='form-login' >
             <input
-              id='username'
-              type="email"
+              id='name'
+              type="text"
               className='input-login'
-              placeholder="Email"
+              placeholder="Your Name?"
+              value={user.name}
+              onChange={onChange}
+            />
+            <input
+              id='username'
+              type="text"
+              className='input-login'
+              placeholder="Username"
               value={user.username}
               onChange={onChange}
             />
@@ -80,7 +91,7 @@ const Register = () => {
             />
             
             
-            <button  className='button-login' onClick={register}   >Login</button>
+            <button  className='button-login' onClick={register}   >Register</button>
             <button style={{ marginTop:10}} onClick={navigateToLogin} className='button-login'> Already Have Account? Login Here</button>
             
           </form>

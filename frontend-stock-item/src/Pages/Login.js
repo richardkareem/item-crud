@@ -34,8 +34,9 @@ const Login = () => {
             const body = { username:user.username, password:user.password };
             const config = { "Content-type" : "application/json" };
             const {data, status} =  await axios.post(url, body, config);
+            
             if(status === 200 ){
-                localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.jwttoken);
                 Swal.fire({
                   icon: "success",
                   title: 'Sukses Login',
@@ -51,8 +52,8 @@ const Login = () => {
 
           Swal.fire({
             icon: 'error',
-            title: 'Upps 🤭...',
-            text: '"Username Atau Password Salah 😥"',
+            title: 'Upps...',
+            text: '"Username Atau Password Salah 🙀"',
           })
             
             

@@ -10,9 +10,9 @@ import Register from './Pages/Register';
 
 function App() {
   return (
-    <div>
+    <div >
       <Routes>
-
+        
         <Route path='/' element={<PrivateRoute> <Home /> </PrivateRoute> } />
         <Route path='*' element={<PagesNotFound />} />
         <Route path='/login' element={<Login />} />
