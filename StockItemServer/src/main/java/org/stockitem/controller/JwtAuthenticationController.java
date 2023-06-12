@@ -52,7 +52,7 @@ public class JwtAuthenticationController {
 			final String token = jwtTokenUtil.generateToken(userDetails);
 
 			//print token dan role
-			return ResponseEntity.ok(new JwtResponse(token, user.getRole(), user.getId(), user.getName(), user.getAlamat()));
+			return ResponseEntity.ok(new JwtResponse(token, user.getName()));
 		} else{
 			return new ResponseEntity<>("Gagal", HttpStatus.BAD_REQUEST);
 		}

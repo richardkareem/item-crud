@@ -15,34 +15,15 @@ public class DAOUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
 	private String name;
-
-	private String alamat;
-
-	private String role;
-
 	@Column(unique = true)
 	private String username;
 	@Column
 	@JsonIgnore
 	private String password;
 
-	private String img;
-
-
-
-
 	public DAOUser(){
 
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
 	}
 
 	public String getName() {
@@ -51,22 +32,6 @@ public class DAOUser {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAlamat() {
-		return alamat;
-	}
-
-	public void setAlamat(String alamat) {
-		this.alamat = alamat;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	public String getUsername() {
